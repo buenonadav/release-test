@@ -18,6 +18,9 @@ jobs:
           TARGET_BRANCH="develop"
           SOURCE_BRANCH=$(jq -r ".pull_request.head.ref" "$GITHUB_EVENT_PATH")
           MERGE_METHOD=$(jq -r ".pull_request.merge_method" "$GITHUB_EVENT_PATH")
+          echo "Source branch: $SOURCE_BRANCH"
+          echo "Target branch: $TARGET_BRANCH"
+          echo "Merge method: $MERGE_METHOD"
 
           # Check if merge method is not squash
           if [ "$MERGE_METHOD" != "squash" ]; then
