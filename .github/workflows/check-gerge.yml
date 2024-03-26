@@ -1,0 +1,32 @@
+name: Check Merge Strategy
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  check-merge-strategy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check merge strategy
+        run: |
+          TARGET_BRANCH="develop"
+          SOURCE_BRANCH=$(jq -r ".pull_request.head.ref" "$GITHUB_EVENT_PATH")
+          MERGE_METHOD=$(jq -r ".review.commit.parents[0].url" "$GITHUB_EVENT_PATH" | xargs curl -s | jq -r ".commit.parents[0].url" | xargs curl -s | jq -r ".commit.message" | grep -c "Merge pull request")
+          echo "Target branch: $TARGET_BRANCH"
+          echo "Source branch: $SOURCE_BRANCH"
+          echo "Merge method: $MERGE_METHOD"
+          
+          
+          # Check if merge method is not squash
+          if [ "$MERGE_METHOD" != "1" ]; then
+            if [[ "$SOURCE_BRANCH" != "main" && ! "$SOURCE_BRANCH" =~ ^release\/stg-[0-9]+$ ]]; then
+              echo "Error: Invalid merge strategy. Please use squash and merge for merging from main or release branches into $TARGET_BRANCH."
+              exit 1
+            fi
+          fi
