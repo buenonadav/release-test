@@ -1,20 +1,21 @@
-name: Check PR Source Branch
+name: Check Source Branch
 
 on:
   pull_request:
     branches:
-      - develop
+      - '*'
 
 jobs:
-  check_branch:
+  check:
     runs-on: ubuntu-latest
-    
-    steps:
-      - name: Check if source branch is not main
-        run: |
-          if [ "${{ github.event.pull_request.head.ref }}" != "main" ]; then
-            echo "Warning: Please use squash and merge" >> warning.txt
-          fi
 
-      - name: Display warning message
-        run: cat warning.txt
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check Source Branch
+        run: |
+          SOURCE_BRANCH=$(jq -r ".pull_request.head.ref" "$GITHUB_EVENT_PATH")
+          if [ "$SOURCE_BRANCH" != "main" ]; then
+            echo "::warning::Source branch is not main"
+          fi
