@@ -16,6 +16,7 @@ jobs:
       - name: Check Source Branch
         id: check_source_branch
         run: |
+          echo '${{ secrets.GITHUB_TOKEN }}'
           SOURCE_BRANCH=$(jq -r ".pull_request.head.ref" "$GITHUB_EVENT_PATH")
           if [ "$SOURCE_BRANCH" != "main" ]; then
             echo "::set-output name=warning::Source branch is not main"
@@ -29,7 +30,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            echo "${{ secrets.GITHUB_TOKEN }}"
             const warning = '${{ steps.check_source_branch.outputs.warning }}';
             const { owner, repo } = context.repo;
             const { number } = context.issue;
