@@ -29,6 +29,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            echo "${{ secrets.GITHUB_TOKEN }}"
             const warning = '${{ steps.check_source_branch.outputs.warning }}';
             const { owner, repo } = context.repo;
             const { number } = context.issue;
