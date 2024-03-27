@@ -17,5 +17,4 @@ jobs:
           fi
 
       - name: Display warning message
-        if: failure()
         run: cat warning.txt
