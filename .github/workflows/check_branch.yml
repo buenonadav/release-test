@@ -13,23 +13,9 @@ jobs:
       - name: Check if source branch is not main
         run: |
           if [ "${{ github.event.pull_request.head.ref }}" != "main" ]; then
-            echo "::set-output name=warning::true"
-          else
-            echo "::set-output name=warning::false"
+            echo "Warning: Please use squash and merge" >> warning.txt
           fi
-        id: check_branch
 
-      - name: Set status check
-        if: steps.check_branch.outputs.warning == 'true'
-        uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.repos.createCommitStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: context.payload.pull_request.head.sha,
-              state: 'failure',
-              description: 'Please use squash and merge',
-              context: 'Squash Merge Warning'
-            })
+      - name: Display warning message
+        if: failure()
+        run: cat warning.txt
