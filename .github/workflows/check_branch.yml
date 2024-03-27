@@ -1,0 +1,48 @@
+name: Check Source Branch
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check Source Branch
+        id: check_source_branch
+        run: |
+          echo '${{ secrets.GITHUB_TOKEN }}'
+          SOURCE_BRANCH=$(jq -r ".pull_request.head.ref" "$GITHUB_EVENT_PATH")
+          if [ "$SOURCE_BRANCH" != "main" ]; then
+            echo "::set-output name=warning::Source branch is not main"
+          else
+            echo "::set-output name=warning::"
+          fi
+
+      - name: Display Warning on PR
+        if: steps.check_source_branch.outputs.warning != ''
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const warning = '${{ steps.check_source_branch.outputs.warning }}';
+            const { owner, repo } = context.repo;
+            const { number } = context.issue;
+            github.checks.create({
+              owner,
+              repo,
+              name: 'Source Branch Check',
+              head_sha: process.env.GITHUB_SHA,
+              status: 'completed',
+              conclusion: 'neutral',
+              output: {
+                title: 'Warning',
+                summary: warning,
+              },
+              pull_requests: [number],
+            });
