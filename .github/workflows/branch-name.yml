@@ -15,7 +15,7 @@ jobs:
     name: Build and Push to GCP
     runs-on: ubuntu-latest
     env:
-      BRANCH: ${{ inputs.branch }}
+      BRANCH: ${{ inputs.branch || github.ref_name }}
       IMAGE_NAME: ido-demo
     steps:
       - name: Set environment variables
