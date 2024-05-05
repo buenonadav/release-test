@@ -7,6 +7,8 @@ on:
         type: string
         description: 'branch name to build Docker Image From.'
         default: ''
+  workflow_dispatch:
+  push:
 
 jobs:
   build-push-gcr:
