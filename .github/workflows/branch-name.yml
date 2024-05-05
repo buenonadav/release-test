@@ -28,6 +28,7 @@ jobs:
           elif [ "$BRANCH" == "develop" ]; then
             echo "IMAGE_NAME=ido-demo-dev" >> $GITHUB_ENV
           fi
+          source $GITHUB_ENV
           echo ""
           echo "Using environment variables:"
           echo "IMAGE_NAME: ${{ env.IMAGE_NAME }}"
