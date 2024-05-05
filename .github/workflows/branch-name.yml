@@ -20,6 +20,7 @@ jobs:
       - name: Set environment variables
         run: |
           echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.base_ref: ${{ github.base_ref }}"
           echo "inputs.branch: ${{ inputs.branch }}"
           echo "CI will be checkout from branch => $BRANCH"
           if [ "$BRANCH" == "main" ]; then
