@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "github.ref_name: ${{ github.ref_name }}"
           echo "inputs.branch: ${{ inputs.branch }}"
-          echo "CI will be checkout from branch => ${{ env.BRANCH }}"
+          echo "CI will be checkout from branch => $BRANCH"
           if [ "${{ env.BRANCH }}" == "main" ]; then
             echo "IMAGE_NAME=ido-demo-prod" >> $GITHUB_ENV
           elif [ "${{ env.BRANCH }}" == "develop" ]; then
