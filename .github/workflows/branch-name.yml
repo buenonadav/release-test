@@ -15,7 +15,7 @@ jobs:
     name: Build and Push to GCP
     runs-on: self-hosted
     env:
-      BRANCH: ${{ inputs.branch || github.ref_name }}
+      BRANCH: ${{ inputs.branch }}
       IMAGE_NAME: ido-demo
     steps:
       - name: Set environment variables
