@@ -1,0 +1,33 @@
+name: Publish Demo Image
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: false
+        type: string
+        description: 'branch name to build Docker Image From.'
+        default: ''
+
+jobs:
+  build-push-gcr:
+    name: Build and Push to GCP
+    runs-on: self-hosted
+    env:
+      BRANCH: ${{ inputs.branch || github.ref_name }}
+      IMAGE_NAME: ido-demo
+    steps:
+      - name: Set environment variables
+        run: |
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "inputs.branch: ${{ inputs.branch }}"
+          echo "CI will be checkout from branch => ${{ env.BRANCH }}"
+          if [ "${{ env.BRANCH }}" == "main" ]; then
+            echo "IMAGE_NAME=ido-demo-prod" >> $GITHUB_ENV
+          elif [ "${{ env.BRANCH }}" == "develop" ]; then
+            echo "IMAGE_NAME=ido-demo-dev" >> $GITHUB_ENV
+          fi
+          echo ""
+          echo "Using environment variables:"
+          echo "IMAGE_NAME: ${{ env.IMAGE_NAME }}"
+          echo "IMAGE_NAME VAR: $IMAGE_NAME"
+
