@@ -8,7 +8,7 @@ env:
 
 jobs:
   setup-environment:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Select environment to use
         id: select-environment
