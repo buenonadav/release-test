@@ -1,10 +1,11 @@
-name: CI/CD
+name: Init
 
 on:
   workflow_call:
-
-env:
-  github-repo: transmitsecurity-dev/ido-sso-hosted
+    outputs:
+      environment:
+        description: "The selected environment"
+        value: ${{ jobs.setup-environment.outputs.environment }}
 
 jobs:
   setup-environment:
@@ -22,3 +23,6 @@ jobs:
           else
             echo "environment=dev" >> $GITHUB_OUTPUT
           fi
+      - name: Echo selected environment
+        run: |
+          echo "Selected environment: ${{ steps.select-environment.outputs.environment }}"
