@@ -1,0 +1,16 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [sso-release-tests]
+
+jobs:
+  init:
+    uses: ./.github/workflows/init.yml
+
+  build:
+    runs-on: self-hosted
+    needs: init
+    steps:
+      - name: test
+        run: echo "Current environment is ${{ env.ENVIRONMENT }}"
