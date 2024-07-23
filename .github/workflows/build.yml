@@ -12,6 +12,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: init
+    env: 
+      environment: ${{ needs.init.outputs.environment }}
     steps:
       - name: test
-        run: echo "Current environment is ${{ needs.init.outputs.environment }}"
+        run: echo "Current environment is ${{ env.environment }}"
