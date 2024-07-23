@@ -16,9 +16,9 @@ jobs:
         id: select-environment
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "{environment}={prod}" >> $GITHUB_OUTPUT
+            echo "environment=prod" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == refs/heads/release/* ]]; then
-            echo "{environment}={stg}" >> $GITHUB_OUTPUT
+            echo "environment=stg" >> $GITHUB_OUTPUT
           else
-            echo "{environment}={dev}" >> $GITHUB_OUTPUT
+            echo "environment=dev" >> $GITHUB_OUTPUT
           fi
