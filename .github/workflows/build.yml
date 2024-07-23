@@ -14,5 +14,5 @@ jobs:
     env:
       ENVIRONMENT: ${{ needs.init.outputs.environment }}
     steps:
-      - name: test
+      - name: Test
         run: echo "Current environment is $ENVIRONMENT"
