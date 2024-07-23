@@ -9,14 +9,16 @@ env:
 jobs:
   setup-environment:
     runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.select-environment.outputs.environment }}
     steps:
       - name: Select environment to use
         id: select-environment
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "ENVIRONMENT=prod" >> $GITHUB_ENV
+            echo "::set-output name=environment::prod"
           elif [[ "${{ github.ref }}" == refs/heads/release/* ]]; then
-            echo "ENVIRONMENT=stg" >> $GITHUB_ENV
+            echo "::set-output name=environment::stg"
           else
-            echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+            echo "::set-output name=environment::dev"
           fi
