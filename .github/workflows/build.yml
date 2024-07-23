@@ -13,4 +13,4 @@ jobs:
     needs: init
     steps:
       - name: test
-        run: echo "Current environment is ${{ env.ENVIRONMENT }}"
+        run: echo "Current environment is ${ENVIRONMENT}"
