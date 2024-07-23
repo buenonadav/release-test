@@ -23,6 +23,3 @@ jobs:
           else
             echo "environment=dev" >> $GITHUB_OUTPUT
           fi
-      - name: Echo selected environment
-        run: |
-          echo "Selected environment: ${{ steps.select-environment.outputs.environment }}"
